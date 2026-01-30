@@ -1,0 +1,25 @@
+name: FastAPI ML Service CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          cd model-deployment/fastapi-ml-service
+          docker build -t fastapi-ml-service .
+
+      - name: Run container health check
+        run: |
+          docker run -d -p 8000:8000 fastapi-ml-service
+          sleep 5
+          curl -f http://localhost:8000/health
