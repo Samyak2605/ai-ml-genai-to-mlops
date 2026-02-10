@@ -1,7 +1,5 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
+
 
 class PredictionRequest(BaseModel):
-    years_experience: float = Field(..., ge=0, example=3.5)
-
-class PredictionResponse(BaseModel):
-    predicted_salary: float
+    years_experience: float
